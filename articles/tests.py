@@ -23,9 +23,7 @@ class ArticlesTestCase(TestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertDictEqual(resp.json(), {
             'status': 'ok',
-            'data': [
-                {'id': a.id, 'format': a.format, 'slug': a.slug, 'title': a.title} for a in self.articles[:3]
-            ],
+            'data': [dict(a) for a in self.articles[:3]],
         })
 
     def test_no_names(self):
@@ -36,9 +34,7 @@ class ArticlesTestCase(TestCase):
             "/api/v1/articles/"
         )
         self.assertEqual(resp.status_code, 200)
-        self.assertDictEqual(resp.json(), {
-            'status': 'ok', 'data': [],
-        })
+        self.assertDictEqual(resp.json(), {'status': 'ok', 'data': []})
 
     def test_select_order(self):
         """
@@ -50,9 +46,7 @@ class ArticlesTestCase(TestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertDictEqual(resp.json(), {
             'status': 'ok',
-            'data': [
-                {'id': a.id, 'format': a.format, 'slug': a.slug, 'title': a.title} for a in self.articles[2::-1]
-            ],
+            'data': [dict(a) for a in self.articles[2::-1]],
         })
 
     def test_wrong_name(self):
